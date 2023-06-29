@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace Common.Models;
 
 public sealed class PizzaModel
