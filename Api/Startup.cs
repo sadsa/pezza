@@ -23,6 +23,7 @@ public class Startup
                 x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
         services.AddApplication();
+        
         services.AddSwaggerGen();
 
         services.AddDbContext<DatabaseContext>(options =>
@@ -35,6 +36,7 @@ public class Startup
         app.UseSwagger();
         app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pezza API V1"));
         app.UseHttpsRedirection();
+        app.UseMiddleware<ExceptionHandlerMiddleware>();
         app.UseRouting();
         app.UseEndpoints(endpoints => endpoints.MapControllers());
         app.UseAuthorization();
