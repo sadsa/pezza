@@ -2,27 +2,9 @@ namespace Test.Setup.TestData;
 
 public static class PizzaTestData
 {
-    public static Faker Faker = new();
+    private static readonly Faker Faker = new();
 
-    public static Pizza Pizza = new()
-    {
-        Id = 1,
-        Name = Faker.PickRandom(pizzas),
-        Description = string.Empty,
-        Price = Faker.Finance.Amount(),
-        DateCreated = DateTime.Now,
-    };
-
-    public static PizzaModel PizzaModel = new()
-    {
-        Id = 1,
-        Name = Faker.PickRandom(pizzas),
-        Description = string.Empty,
-        Price = Faker.Finance.Amount(),
-        DateCreated = DateTime.Now
-    };
-
-    private static readonly List<string> pizzas = new()
+    private static readonly List<string> Pizzas = new()
     {
         "Veggie Pizza",
         "Pepperoni Pizza",
@@ -31,4 +13,23 @@ public static class PizzaTestData
         "BBQ Chicken Pizza",
         "Hawaiian Pizza"
     };
+    
+    public static Pizza Pizza = new()
+    {
+        Id = 1,
+        Name = Faker.PickRandom(Pizzas),
+        Description = string.Empty,
+        Price = Faker.Finance.Amount(),
+        DateCreated = DateTime.Now,
+    };
+
+    public static readonly PizzaModel PizzaModel = new()
+    {
+        Id = 1,
+        Name = Faker.PickRandom(Pizzas),
+        Description = string.Empty,
+        Price = Faker.Finance.Amount(),
+        DateCreated = DateTime.Now
+    };
+
 }

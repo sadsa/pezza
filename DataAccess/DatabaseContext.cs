@@ -10,10 +10,14 @@ public class DatabaseContext : DbContext
     {
     }
 
+    public virtual DbSet<Customer> Customers { get; set; }
     public virtual DbSet<Pizza> Pizzas { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
-        => modelBuilder.ApplyConfiguration(new PizzaMap());
+    {
+        modelBuilder.ApplyConfiguration(new CustomerMap());
+        modelBuilder.ApplyConfiguration(new PizzaMap());
+    }
 
     protected override void OnConfiguring
         (DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseInMemoryDatabase(databaseName: "PezzaDb");
