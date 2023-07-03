@@ -6,11 +6,11 @@ public class CreatePizzaCommand : IRequest<Result<PizzaModel>>
 
     public class CreatePizzaCommandHandler : IRequestHandler<CreatePizzaCommand, Result<PizzaModel>>
     {
-        private readonly DatabaseContext _databaseContext;
+        private readonly DatabaseContext databaseContext;
 
         public CreatePizzaCommandHandler(DatabaseContext databaseContext)
         {
-            _databaseContext = databaseContext;
+            this.databaseContext = databaseContext;
         }
 
         public async Task<Result<PizzaModel>> Handle(CreatePizzaCommand request, CancellationToken cancellationToken)
@@ -27,8 +27,8 @@ public class CreatePizzaCommand : IRequest<Result<PizzaModel>>
                 Price = request.Data.Price,
                 DateCreated = DateTime.UtcNow
             };
-            _databaseContext.Pizzas.Add(entity);
-            var result = await _databaseContext.SaveChangesAsync(cancellationToken);
+            databaseContext.Pizzas.Add(entity);
+            var result = await databaseContext.SaveChangesAsync(cancellationToken);
 
             return result > 0 ? Result<PizzaModel>.Success(entity.Map()) : Result<PizzaModel>.Failure("Error");
         }

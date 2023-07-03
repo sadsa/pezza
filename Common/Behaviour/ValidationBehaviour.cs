@@ -10,10 +10,13 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
     public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
         => this.validators = validators;
 
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
-        CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        if (!this.validators.Any()) return await next();
+        if (!this.validators.Any())
+        {
+            return await next();
+        }
+
         var context = new ValidationContext<TRequest>(request);
 
         var validationResults =

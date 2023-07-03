@@ -10,9 +10,9 @@ using Newtonsoft.Json.Serialization;
 
 public class Startup
 {
-    public IConfiguration ConfigRoot { get; }
-
     public Startup(IConfiguration configuration) => this.ConfigRoot = configuration;
+
+    public IConfiguration ConfigRoot { get; }
 
     public void ConfigureServices(IServiceCollection services)
     {
@@ -23,12 +23,11 @@ public class Startup
                 x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
         services.AddApplication();
-        
+
         services.AddSwaggerGen();
 
         services.AddDbContext<DatabaseContext>(options =>
-            options.UseInMemoryDatabase(Guid.NewGuid().ToString())
-        );
+            options.UseInMemoryDatabase(Guid.NewGuid().ToString()));
     }
 
     public static void Configure(WebApplication app, IWebHostEnvironment env)

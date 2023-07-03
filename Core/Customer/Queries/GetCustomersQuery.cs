@@ -3,14 +3,14 @@ namespace Core.Customer.Queries;
 public class GetCustomersQuery : IRequest<ListResult<CustomerModel>>
 {
     public SearchCustomerModel Data { get; set; }
-    
+
     public class GetCustomersQueryHandler : IRequestHandler<GetCustomersQuery, ListResult<CustomerModel>>
     {
-        private readonly DatabaseContext _databaseContext;
+        private readonly DatabaseContext databaseContext;
 
         public GetCustomersQueryHandler(DatabaseContext databaseContext)
         {
-            _databaseContext = databaseContext;
+            this.databaseContext = databaseContext;
         }
 
         public async Task<ListResult<CustomerModel>> Handle(GetCustomersQuery request, CancellationToken cancellationToken)
@@ -20,7 +20,8 @@ public class GetCustomersQuery : IRequest<ListResult<CustomerModel>>
             {
                 entity.OrderBy = "DateCreated desc";
             }
-            var entities = _databaseContext.Customers
+
+            var entities = databaseContext.Customers
                 .Select(x => x)
                 .AsNoTracking()
                 .FilterByName(entity.Name)

@@ -8,15 +8,15 @@ using Microsoft.AspNetCore.Http;
 
 public class ExceptionHandlerMiddleware
 {
-    private readonly RequestDelegate _next;
+    private readonly RequestDelegate next;
 
-    public ExceptionHandlerMiddleware(RequestDelegate next) => _next = next;
+    public ExceptionHandlerMiddleware(RequestDelegate next) => this.next = next;
 
     public async Task Invoke(HttpContext context /* other dependencies */)
     {
         try
         {
-            await _next(context);
+            await next(context);
         }
         catch (Exception ex)
         {
@@ -42,8 +42,8 @@ public class ExceptionHandlerMiddleware
         {
             var failures = validationFailures.Select(x => new
             {
-                Property = x.PropertyName.Replace("Data.", ""),
-                Error = x.ErrorMessage.Replace("Data ", "")
+                Property = x.PropertyName.Replace("Data.", string.Empty),
+                Error = x.ErrorMessage.Replace("Data ", string.Empty)
             });
             var result = Result.Failure(failures.ToList<object>());
             var resultJson = JsonSerializer.Serialize(result);
@@ -55,7 +55,7 @@ public class ExceptionHandlerMiddleware
         }
         else
         {
-            var result = Result.Failure(exception?.Message ?? "");
+            var result = Result.Failure(exception?.Message ?? string.Empty);
             var resultJson = JsonSerializer.Serialize(result);
 
             context.Response.ContentType = "application/json";

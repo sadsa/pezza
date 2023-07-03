@@ -2,7 +2,7 @@ namespace Common.Models;
 
 public class PagingArgs
 {
-    private int _limit = 20;
+    private int limit = 20;
 
     public static PagingArgs NoPaging => new PagingArgs { UsePaging = false };
 
@@ -14,7 +14,7 @@ public class PagingArgs
 
     public int Limit
     {
-        get => this._limit;
+        get => this.limit;
 
         set
         {
@@ -23,7 +23,7 @@ public class PagingArgs
                 value = 20;
             }
 
-            this._limit = value;
+            this.limit = value;
         }
     }
 

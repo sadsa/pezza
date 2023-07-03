@@ -3,16 +3,16 @@ namespace Core.Pizza.Queries;
 public class GetPizzasQuery : IRequest<ListResult<PizzaModel>>
 {
     public SearchPizzaModel Data { get; set; }
-    
+
     public class GetPizzasQueryHandler : IRequestHandler<GetPizzasQuery, ListResult<PizzaModel>>
     {
-        private readonly DatabaseContext _databaseContext;
+        private readonly DatabaseContext databaseContext;
 
         public GetPizzasQueryHandler(DatabaseContext databaseContext)
         {
-            _databaseContext = databaseContext;
+            this.databaseContext = databaseContext;
         }
-        
+
         public async Task<ListResult<PizzaModel>> Handle(GetPizzasQuery request, CancellationToken cancellationToken)
         {
             var entity = request.Data;
@@ -21,7 +21,7 @@ public class GetPizzasQuery : IRequest<ListResult<PizzaModel>>
                 entity.OrderBy = "DateCreated desc";
             }
 
-            var entities = _databaseContext.Pizzas
+            var entities = databaseContext.Pizzas
                 .Select(x => x)
                 .AsNoTracking()
                 .FilterByName(entity.Name)

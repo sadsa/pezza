@@ -8,13 +8,13 @@ public class UpdatePizzaCommand : IRequest<Result<PizzaModel>>
 
     public class UpdatePizzaCommandHandler : IRequestHandler<UpdatePizzaCommand, Result<PizzaModel>>
     {
-        private readonly DatabaseContext _databaseContext;
+        private readonly DatabaseContext databaseContext;
 
         public UpdatePizzaCommandHandler(DatabaseContext databaseContext)
         {
-            _databaseContext = databaseContext;
+            this.databaseContext = databaseContext;
         }
-        
+
         public async Task<Result<PizzaModel>> Handle(UpdatePizzaCommand request, CancellationToken cancellationToken)
         {
             if (request.Data == null || request.Id == null)
@@ -24,7 +24,7 @@ public class UpdatePizzaCommand : IRequest<Result<PizzaModel>>
 
             var model = request.Data;
             var query = EF.CompileAsyncQuery((DatabaseContext db, int id) => db.Pizzas.FirstOrDefault(c => c.Id == id));
-            var findEntity = await query(_databaseContext, request.Id.Value);
+            var findEntity = await query(databaseContext, request.Id.Value);
             if (findEntity == null)
             {
                 return Result<PizzaModel>.Failure("Not found");
@@ -34,8 +34,8 @@ public class UpdatePizzaCommand : IRequest<Result<PizzaModel>>
             findEntity.Description = !string.IsNullOrEmpty(model?.Description) ? model?.Description : findEntity.Description;
             findEntity.Price = model.Price.HasValue ? model.Price.Value : findEntity.Price;
 
-            var outcome = _databaseContext.Pizzas.Update(findEntity);
-            var result = await _databaseContext.SaveChangesAsync(cancellationToken);
+            var outcome = databaseContext.Pizzas.Update(findEntity);
+            var result = await databaseContext.SaveChangesAsync(cancellationToken);
 
             return result > 0 ? Result<PizzaModel>.Success(findEntity.Map()) : Result<PizzaModel>.Failure("Error");
         }
