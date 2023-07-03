@@ -6,5 +6,7 @@ global using System.Threading;
 global using System.Threading.Tasks;
 global using Common.Entities;
 global using Common.Models;
+global using Common.Models.Pizza;
+global using Common.Models.Customer;
 global using FluentValidation;
 global using MediatR;

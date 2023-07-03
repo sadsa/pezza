@@ -56,7 +56,10 @@ public class TestCustomerCore : QueryTestBase
 	public async Task GetAllAsync()
 	{
 		var sutGetAll = new GetCustomersQueryHandler(this.Context);
-		var resultGetAll = await sutGetAll.Handle(new GetCustomersQuery(), CancellationToken.None);
+		var resultGetAll = await sutGetAll.Handle(new GetCustomersQuery()
+		{
+			Data = new SearchCustomerModel()
+		}, CancellationToken.None);
 
 		Assert.IsTrue(resultGetAll?.Data.Count == 1);
 	}

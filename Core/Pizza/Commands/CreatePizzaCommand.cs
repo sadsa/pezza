@@ -12,18 +12,18 @@ public class CreatePizzaCommand : IRequest<Result<PizzaModel>>
         {
             _databaseContext = databaseContext;
         }
-        
+
         public async Task<Result<PizzaModel>> Handle(CreatePizzaCommand request, CancellationToken cancellationToken)
         {
-            if(request.Data == null)
+            if (request.Data == null)
             {
                 return Result<PizzaModel>.Failure("Error");
             }
 
             var entity = new Common.Entities.Pizza
             {
-                Name= request.Data.Name,
-                Description= request.Data.Description,
+                Name = request.Data.Name,
+                Description = request.Data.Description,
                 Price = request.Data.Price,
                 DateCreated = DateTime.UtcNow
             };
