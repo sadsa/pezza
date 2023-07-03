@@ -1,3 +1,5 @@
+using Common.Models.Customer;
+
 namespace Core.Customer.Commands;
 
 public class CreateCustomerCommand : IRequest<Result<CustomerModel>>

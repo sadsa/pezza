@@ -1,3 +1,5 @@
+using Common.Models.Customer;
+
 namespace Api.Controllers;
 
 using Core.Customer.Commands;
@@ -26,18 +28,19 @@ public class CustomerController : ApiController
 	/// <summary>
 	/// Get all Customers.
 	/// </summary>
-	/// <returns>A <see cref="Task"/> repres
-	/// enting the asynchronous operation.</returns>
+	/// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
 	/// <response code="200">Customer Search</response>
 	/// <response code="400">Error searching for customers</response>
-	[HttpPost]
-	// [ProducesResponseType(typeof(ListResult<CustomerModel>), 200)]
-	// [ProducesResponseType(typeof(ErrorResult), 400)]
-	[Route("Search")]
-	public async Task<ListResult<CustomerModel>> Search()
+	[HttpPost("Search")]
+	[ProducesResponseType(typeof(ListResult<Customer>), 200)]
+	[ProducesResponseType(typeof(ErrorResult), 400)]
+	public async Task<ActionResult> Search(SearchCustomerModel data)
 	{
-		var result = await this.Mediator.Send(new GetCustomersQuery());
-		return result;
+		var result = await this.Mediator.Send(new GetCustomersQuery()
+		{
+			Data = data
+		});
+		return ResponseHelper.ResponseOutcome(result, this);
 	}
 
 	/// <summary>

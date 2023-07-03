@@ -1,5 +1,12 @@
-﻿global using Common.Mappers;
+﻿global using System.Linq.Dynamic.Core;
+global using Common.Extensions;
+global using Common.Mappers;
 global using Common.Models;
+global using Common.Models.Pizza;
+global using Common.Models.Customer;
+global using Core.Pizza.Commands;
 global using DataAccess;
+global using DataAccess.Filters;
+global using FluentValidation;
 global using MediatR;
 global using Microsoft.EntityFrameworkCore;
