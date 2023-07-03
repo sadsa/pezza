@@ -2,8 +2,8 @@
 global using Common.Extensions;
 global using Common.Mappers;
 global using Common.Models;
-global using Common.Models.Pizza;
 global using Common.Models.Customer;
+global using Common.Models.Pizza;
 global using Core.Pizza.Commands;
 global using DataAccess;
 global using DataAccess.Filters;

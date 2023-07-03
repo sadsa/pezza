@@ -6,17 +6,17 @@ public class GetPizzaQuery : IRequest<Result<PizzaModel>>
 
     public class GetPizzaQueryHandler : IRequestHandler<GetPizzaQuery, Result<PizzaModel>>
     {
-        private readonly DatabaseContext _databaseContext;
+        private readonly DatabaseContext databaseContext;
 
         public GetPizzaQueryHandler(DatabaseContext databaseContext)
         {
-            _databaseContext = databaseContext;
+            this.databaseContext = databaseContext;
         }
-        
+
         public async Task<Result<PizzaModel>> Handle(GetPizzaQuery request, CancellationToken cancellationToken)
         {
             var query = EF.CompileAsyncQuery((DatabaseContext db, int id) => db.Pizzas.FirstOrDefault(c => c.Id == id));
-            var entity = await query(_databaseContext, request.Id);
+            var entity = await query(databaseContext, request.Id);
             if (entity == null)
             {
                 return Result<PizzaModel>.Failure("Not Found");

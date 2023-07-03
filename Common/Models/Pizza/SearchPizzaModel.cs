@@ -9,7 +9,7 @@ public sealed class SearchPizzaModel
     public decimal? Price { get; set; }
 
     public DateTime? DateCreated { get; set; }
-    
+
     public string? OrderBy { get; set; }
 
     public PagingArgs PagingArgs { get; set; } = PagingArgs.NoPaging;

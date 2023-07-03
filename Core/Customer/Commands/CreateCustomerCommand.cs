@@ -8,11 +8,11 @@ public class CreateCustomerCommand : IRequest<Result<CustomerModel>>
 
     public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, Result<CustomerModel>>
     {
-        private readonly DatabaseContext _databaseContext;
+        private readonly DatabaseContext databaseContext;
 
         public CreateCustomerCommandHandler(DatabaseContext databaseContext)
         {
-            _databaseContext = databaseContext;
+            this.databaseContext = databaseContext;
         }
 
         public async Task<Result<CustomerModel>> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
@@ -30,8 +30,8 @@ public class CreateCustomerCommand : IRequest<Result<CustomerModel>>
                 Cellphone = request.Data.Cellphone,
                 DateCreated = DateTime.UtcNow
             };
-            _databaseContext.Customers.Add(entity);
-            var result = await _databaseContext.SaveChangesAsync(cancellationToken);
+            databaseContext.Customers.Add(entity);
+            var result = await databaseContext.SaveChangesAsync(cancellationToken);
 
             return result > 0 ? Result<CustomerModel>.Success(entity.Map()) : Result<CustomerModel>.Failure($"Error");
         }

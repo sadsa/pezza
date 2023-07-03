@@ -8,11 +8,11 @@ public class UpdateCustomerCommand : IRequest<Result<CustomerModel>>
 
     public class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, Result<CustomerModel>>
     {
-        private readonly DatabaseContext _databaseContext;
+        private readonly DatabaseContext databaseContext;
 
         public UpdateCustomerCommandHandler(DatabaseContext databaseContext)
         {
-            _databaseContext = databaseContext;
+            this.databaseContext = databaseContext;
         }
 
         public async Task<Result<CustomerModel>> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
@@ -24,7 +24,7 @@ public class UpdateCustomerCommand : IRequest<Result<CustomerModel>>
 
             var model = request.Data;
             var query = EF.CompileAsyncQuery((DatabaseContext db, int id) => db.Customers.FirstOrDefault(c => c.Id == id));
-            var findEntity = await query(_databaseContext, request.Id.Value);
+            var findEntity = await query(databaseContext, request.Id.Value);
             if (findEntity == null)
             {
                 return Result<CustomerModel>.Failure("Not found");
@@ -35,8 +35,8 @@ public class UpdateCustomerCommand : IRequest<Result<CustomerModel>>
             findEntity.Cellphone = !string.IsNullOrEmpty(model?.Cellphone) ? model?.Cellphone : findEntity.Cellphone;
             findEntity.Email = !string.IsNullOrEmpty(model?.Email) ? model?.Email : findEntity.Email;
 
-            var outcome = _databaseContext.Customers.Update(findEntity);
-            var result = await _databaseContext.SaveChangesAsync(cancellationToken);
+            var outcome = databaseContext.Customers.Update(findEntity);
+            var result = await databaseContext.SaveChangesAsync(cancellationToken);
 
             return result > 0 ? Result<CustomerModel>.Success(findEntity.Map()) : Result<CustomerModel>.Failure("Error");
         }

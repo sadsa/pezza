@@ -11,7 +11,7 @@ public sealed class SearchCustomerModel
     public string? Cellphone { get; set; }
 
     public DateTime? DateCreated { get; set; }
-    
+
     public string? OrderBy { get; set; }
 
     public PagingArgs PagingArgs { get; set; } = PagingArgs.NoPaging;
